@@ -5,7 +5,7 @@
   <p align="center" style="font-size: 2.0em;">
 
 # Background 背景
-此版本仅限简体中文的内容萌化🥲🥲
+**此版本仅限简体中文的内容萌化🥲🥲**
 开发需要 root 权限的应用程序时，最常见的方法是在 su shell 中运行一些命令。例如，有一个应用程序使用 pm enable/disable 命令来启用/禁用组件
 
 -这种方法有很大的缺点：
