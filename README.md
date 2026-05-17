@@ -1,22 +1,33 @@
-# Shizuku
+# Suiku Ultra（Shizuku）
+<div align="center">
+  <img src="https://img.cdn1.vip/i/6a094979158ba_1778993529.webp" alt="Suiku Ultra Logo" width="150">
+  <h1>Suiku Ultra：萌化版的shizuku </h1>
+  <p align="center" style="font-size: 2.0em;">
 
-## Background
+# BackgroundB 背景
 
-When developing apps that requires root, the most common method is to run some commands in the su shell. For example, there is an app that uses the `pm enable/disable` command to enable/disable components.
+开发需要 root 权限的应用程序时，最常见的方法是在 su shell 中运行一些命令。例如，有一个应用程序使用 pm enable/disable 命令来启用/禁用组件
 
-This method has very big disadvantages:
+-这种方法有很大的缺点：
 
-1. **Extremely slow** (Multiple process creation)
-2. Needs to process texts (**Super unreliable**)
-3. The possibility is limited to available commands
-4. Even if ADB has sufficient permissions, the app requires root privileges to run
+1.极其缓慢（创建多个进程）
+
+2.需要处理文本（超级不可靠）
+
+3.可能性仅限于可用命令
+
+4.即使 ADB 具有足够的权限，应用程序也需要根权限才能运行
 
 Shizuku uses a completely different way. See detailed description below.
 
-## User guide & Download
+**Shizuku 使用了一种完全不同的方式。请参阅下面的详细描述。**
+  <p align="center" style="font-size: 1.0em;">
+
+
+## 作为第三方复刻，我们十分尊重原作.
 
 <https://shizuku.rikka.app/>
-
+<https://github.com/RikkaApps/Shizuku>
 ## How does Shizuku work?
 
 First, we need to talk about how app use system APIs. For example, if the app wants to get installed apps, we all know we should use `PackageManager#getInstalledPackages()`. This is actually an interprocess communication (IPC) process of the app process and system server process, just the Android framework did the inner works for us.
@@ -27,7 +38,7 @@ Usually, if there is a "manager" (e.g., `PackageManager`) for apps to use, there
 
 Shizuku guides users to run a process, Shizuku server, with root or ADB first. When the app starts, the `binder` to Shizuku server will also be sent to the app.
 
-The most important feature Shizuku provides is something like be a middle man to receive requests from the app, sent them to the system server, and send back the results. You can see the `transactRemote` method in `rikka.shizuku.server.ShizukuService` class, and `moe.shizuku.api.ShizukuBinderWrapper` class for the detail.
+The most important feature Shizuku provides is something like be a middle man to receive requests from the app, sent them to the system server, 和 send back the results. You can see the `transactRemote` method in `rikka.shizuku.server.ShizukuService` class, and `moe.shizuku.api.ShizukuBinderWrapper` class for the detail.
 
 So, we reached our goal, to use system APIs with higher permission. And to the app, it is almost identical to the use of system APIs directly.
 
@@ -72,7 +83,7 @@ https://github.com/RikkaApps/Shizuku-API#migration-guide-for-existing-applicatio
 - Clone with `git clone --recurse-submodules`
 - Run gradle task `:manager:assembleDebug` or `:manager:assembleRelease`
 
-The `:manager:assembleDebug` task generates a debuggable server. You can attach a debugger to `shizuku_server` to debug the server. Be aware that, in Android Studio, "Run/Debug configurations" - "Always install with package manager" should be checked, so that the server will use the latest code.
+该 `:manager:assembleDebug` task generates a debuggable server. You can attach a debugger to `shizuku_server` to debug the server. Be aware that, in Android Studio, "Run/Debug configurations" - "Always install with package manager" should be checked, so that the server will use the latest code.
 
 ## License
 
@@ -82,4 +93,4 @@ Under Apache 2.0 section 6, specifically:
 
 * You are **FORBIDDEN** to use `manager/src/main/res/mipmap*/ic_launcher*.png` image files, unless for displaying Shizuku itself.
 
-* You are **FORBIDDEN** to use `Shizuku` as app name or use `moe.shizuku.privileged.api` as application id or declare `moe.shizuku.manager.permission.*` permission.
+* 您将 **FORBIDDEN** to use `Shizuku` as app name or use `moe.shizuku.privileged.api` as application id or declare `moe.shizuku.manager.permission.*` permission.
