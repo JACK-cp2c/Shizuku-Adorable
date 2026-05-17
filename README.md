@@ -63,7 +63,7 @@ https://github.com/RikkaApps/Shizuku-API
 迁移指南：<https://github.com/RikkaApps/Shizuku-API#migration-guide-for-existing-applications-use-shizuku-pre-v11>
 ## 注意事项
 
-1. ADB 权限存在限制🌚
+ 1.ADB 权限存在限制🌚
 
    ADB 权限本身有限，且不同安卓系统版本权限范围各不相同。
 可在此查看系统赋予 ADB 的权限清单：
@@ -71,13 +71,15 @@ https://github.com/RikkaApps/Shizuku-API
    调用接口前，可通过两种方式校验权限：
 - ShizukuService#getUid 判断 Shizuku 是否由 ADB 模式运行
 - ShizukuService#checkPermission 校验服务端是否拥有足够操作权限
+  
    
-2. 安卓 9 隐藏 API 调用限制
+ 2.安卓 9 隐藏 API 调用限制
 
    从安卓 9 开始，普通应用被系统限制调用隐藏非公开 API。
 如需绕过限制，可使用开源方案：<https://github.com/LSPosed/AndroidHiddenApiBypass>
 
-3. 安卓 8.0 与 ADB 适配问题
+
+ 3.安卓 8.0 与 ADB 适配问题
 
    目前 `Shizuku` 服务端获取应用进程的方式，是组合使用
 `IActivityManager#registerProcessObserver` 和 `IActivityManager#registerUidObserver`（安卓 8.0 及以上），
@@ -85,7 +87,8 @@ https://github.com/RikkaApps/Shizuku-API
 但在安卓 8.0（API26）上，ADB 没有权限使用 `registerUidObserver`。
 如果你的应用可能非活动页面（Activity）拉起进程，建议启动一个透明页面来触发 `Binder` 句柄推送.
 
-4. 直接调用 transactRemote 接口须知
+
+ 4.直接调用 transactRemote 接口须知
 
    - 不同安卓版本的系统接口定义存在差异，务必仔细适配版本；
 且 `android.app.IActivityManager` 仅在 API26 及以上才有 AIDL 接口定义，`android.app.IActivityManager$Stub` 类也仅存在于 `API26` 版本。
@@ -95,20 +98,25 @@ https://github.com/RikkaApps/Shizuku-API
 官方已处理该类兼容问题，但不排除还有其他兼容场景；
 推荐优先使用 `ShizukuBinderWrapper` 封装方式，可规避此类版本适配问题。
 
+
 # 编译开发 Shizuku 本体
 
 ## 编译构建
-1. 克隆源码（包含子模块）：git clone --recurse-submodules
-2. 执行 Gradle 编译任务：
+ 1.克隆源码（包含子模块）：git clone --recurse-submodules
+ 
+ 2.执行 Gradle 编译任务：
 调试版：:manager:assembleDebug
 正式版：:manager:assembleRelease
 执行 :manager:assembleDebug 会生成可调试的服务端程序。
 可对 shizuku_server 进程附加调试器进行源码调试。
 注意：在安卓工作室（Android Studio）的「运行 / 调试配置」中，需勾选 始终通过包管理器安装，确保服务端使用最新编译代码。
 
+
 ## 开源许可证
 
 本项目所有代码文件均遵循 Apache 2.0 开源协议。
 依据 Apache 2.0 协议第 6 条规定，特别声明：
-1. 禁止擅自使用 manager/src/main/res/mipmap*/ic_launcher*.png 图标资源(这个不用管，官方仓库才有😅)，仅允许用于展示 Shizuku 官方本体；
-2. 禁止 将 Shizuku 用作应用名称、使用 `moe.shizuku.privileged.api` 作为应用包名，以及声明 moe.shizuku.manager.permission.* 系列权限。
+
+ 1.禁止擅自使用 manager/src/main/res/mipmap*/ic_launcher*.png 图标资源(这个不用管，官方仓库才有😅)，仅允许用于展示 Shizuku 官方本体；
+ 
+ 2.禁止 将 Shizuku 用作应用名称、使用 `moe.shizuku.privileged.api` 作为应用包名，以及声明 moe.shizuku.manager.permission.* 系列权限。
